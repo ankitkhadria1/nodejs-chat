@@ -26,7 +26,7 @@ app.use(app.router);
 app.use(express.static(__dirname + '/public'));
 
 var server = http.createServer(app).listen('9000', 'localhost');
-chatServer.listen(server);
+chatServer.listen(server); //running chat server
 
 /*sql = ' select email from admin ';
 // sub admin
@@ -77,6 +77,7 @@ app.get('/', function(req, res) {
 app.post('/signIn', function(req, res) {
 	var email = req.body.email;
 	var pass = req.body.pass;
+	var is_admin = req.body.isAdmin;
 	q = 'select * from user where email=?';
 
 	db.query(q, [email], function(err, result) {
@@ -86,7 +87,7 @@ app.post('/signIn', function(req, res) {
 			console.log(result[0].pass);
 			if (result[0].password == pass) {
 				res.render('index1.ejs', {
-					result: result[0]
+					result: result[0] , admin : is_admin
 				});
 
 			}
