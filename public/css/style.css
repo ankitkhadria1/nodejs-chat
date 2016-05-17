@@ -14,7 +14,11 @@ html, body {
     clear: both;
     padding: 10px;
 }
-
+#adminData span {
+    float: left;
+    clear: both;
+    padding: 10px;
+}
 .user {
     width: 75%;
     background-color: #333;

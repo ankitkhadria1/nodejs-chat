@@ -7,7 +7,7 @@
 
          var nick = $('#nickname').val();
          var admin = $('#admin').val();
-         alert("got it" + admin);
+         // alert("got it" + admin);
          socket.emit('choose nickname', nick, admin, function(err) {
              if (err) {
                  $('#nick-error').text(err);
@@ -22,9 +22,7 @@
      socket.on('names', function(users) {
          displayUsers(users);
      });
-     socket.on('namesAdmin', function(users) {
-         displayUsers1(users);
-     });
+
 
      socket.on('new user', function(user) {
 
@@ -34,19 +32,21 @@
      function displayUsers(users) {
 
          var html = '';
-         var html1 = '';
+
          for (var i = 0; i < users.length; i++) {
              if (users[i].is_admin) {
-                 html += '<div class="user" id="user' + users[i].id + '">' + users[i].nick + '</div>';
+                 html += '<div class="admins" id="admins' + users[i].id + '">' + users[i].nick + '</div>';
+                 alert(html);
              } else {
-                             html1 += '<div class="admins" id="admin' + users[i].id + '">' + users[i].nick + '</div>';
-
+                 html += '<div class="sub_admin" id="user' + users[i].id + '">' + users[i].nick + '</div>';
+                   alert(html);
              }
 
          }
-         $('#users').append(html);
-
-          $('#admin').append(html1);
+         if(users[0].is_admin)
+            $('#adminData').append(html);
+         else
+          $('#users').append(html);
 
          // ===========================
          // it should be random...======
@@ -60,27 +60,6 @@
          });
      }
 
-     function displayUsers1(users) {
-
-         var html = '';
-
-         for (var i = 0; i < users.length; i++) {
-
-             html += '<div class="admins" id="admin' + users[i].id + '">' + users[i].nick + '</div>';
-         }
-         $('#admin').append(html);
-
-         // ===========================
-         // it should be random...======
-         // -==========================
-         $('.user').click(function(e) {
-             if (!userToPM) {
-                 $('#pm-col').show();
-             }
-             userToPM = $(this).attr('id').substring(4);
-             $('#user-to-pm').html('<h2>' + $(this).text() + '</h2>');
-         });
-     }
      socket.on('user disconnect', function(id) {
          console.log(id);
          $('#user' + id).remove();
